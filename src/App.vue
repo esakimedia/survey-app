@@ -8,4 +8,7 @@
 </template>
 
 <style>
+#app {
+  background-color: rgba(58, 58, 58, 0.1);
+}
 </style>
