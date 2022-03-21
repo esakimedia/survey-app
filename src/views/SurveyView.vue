@@ -4,7 +4,7 @@
             <div class="flex items-center justify-between">
                 <h1
                     class="text-3xl font-bold text-gray-900"
-                >{{ model.id ? model.title : "Create a Survey" }}</h1>
+                >{{ model.id ? model.title : "Create a survey" }}</h1>
             </div>
         </template>
         <form @submit.prevent="saveSurvey">
@@ -16,8 +16,8 @@
                         <label class="block text-sm font-medium text-gray-700">Image</label>
                         <div class="mt-1 flex items-center">
                             <img
-                                v-if="model.image"
-                                :src="model.image"
+                                v-if="model.image_url"
+                                :src="model.image_url"
                                 :alt="model.title"
                                 class="w-64 h-48 object-cover"
                             />
@@ -44,6 +44,7 @@
                             >
                                 <input
                                     type="file"
+                                    @change="onImageChoose"
                                     class="absolute left-0 right-0 bottom-0 opacity-0 cursor-pointer"
                                 />
                                 Change
@@ -193,6 +194,20 @@ if (route.params.id) {
     model.value = store.state.surveys.find(
         (s) => s.id === parseInt(route.params.id)
     );
+}
+
+function onImageChoose(ev) {
+    const file = ev.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        // The field to send on backend and apply validations
+        model.value.image = reader.result;
+
+        // The field to display here
+        model.value.image_url = reader.result;
+    };
+    reader.readAsDataURL(file);
 }
 
 function addQuestion(index) {
