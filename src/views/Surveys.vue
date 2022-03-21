@@ -33,6 +33,28 @@
                     @delete="deleteSurvey(survey)"
                 />
             </div>
+
+            <div class="flex justify-center mt-5">
+                <nav
+                    class="cursor-pointer bg-gray-50 border-gray-500 text-gray-500 relative z-0 inline-flex justify-content rounded-md shadow-sm"
+                    aria-label="Pagination"
+                >
+                    <a
+                        v-for="(link, i) of surveys.links"
+                        :key="i"
+                        :disabled="!link.url"
+                        @click="getForPage($event, link)"
+                        aria-current="page"
+                        class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap"
+                        :class="[
+                            link.active ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600' : 'bg-white border-gray-500 hover:bg-gray-50',
+                            i === 0 ? 'rounded-l-md' : '',
+                            i === surveys.links.length - 1 ? 'rounded-r-md' : '',
+                        ]"
+                        v-html="link.label"
+                    ></a>
+                </nav>
+            </div>
         </div>
     </PageComponent>
 </template>
@@ -55,6 +77,15 @@ function deleteSurvey(survey) {
                 store.dispatch('getSurveys');
             });
     }
+}
+
+function getForPage(ev, link) {
+    ev.preventDefault();
+    if (!link.url || link.active) {
+        return;
+    }
+
+    store.dispatch("getSurveys", { url: link.url });
 }
 </script>
 
