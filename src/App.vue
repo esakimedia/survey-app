@@ -10,5 +10,6 @@
 <style>
 #app {
   background-color: rgba(58, 58, 58, 0.1);
+  min-height: 100vh;
 }
 </style>

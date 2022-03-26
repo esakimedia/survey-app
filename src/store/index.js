@@ -229,6 +229,9 @@ const store = createStore({
         deleteSurvey({ }, id) {
             return axiosClient.delete(`/survey/${id}`);
         },
+        saveSurveyAnswer({ commit }, { surveyId, answers }) {
+            return axiosClient.post(`/survey/${surveyId}/answer`, { answers });
+        },
         register({ commit }, user) {
             return axiosClient.post('/register', user)
                 .then(({ data }) => {
